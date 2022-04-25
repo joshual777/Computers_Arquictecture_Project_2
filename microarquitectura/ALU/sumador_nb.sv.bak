@@ -1,0 +1,8 @@
+module sumador_nb #(parameter N = 4) (input logic [N-1:0] a, b,
+										     input logic ci,
+										     output logic [N-1:0] sum,
+										     output logic co);
+										 
+assign {co, sum} = a + b + ci;
+
+endmodule

@@ -1,0 +1,41 @@
+module RAM (input logic clk, we,
+						 input logic [31:0] addr, wd,
+						 output logic [31:0] rd, output logic GPIO,output logic GPIOEn);
+				
+	logic RAM1[10000:0];
+
+	
+	always_comb
+		begin
+			if (addr >= 'd0 && addr <= 'd10000)
+				rd = {31'b0, RAM1[addr]};
+			else
+				rd = 32'b0;
+		end
+	
+
+	always_ff @(negedge clk)
+		begin
+			if (we) 
+				begin
+					if (addr >= 'd0 && addr <= 'd10000)
+						RAM1[addr] <= wd[0];
+				end
+		end
+		
+		always_comb
+			begin
+				if (addr == 'd10001 && we == 1'b1)
+					begin
+						GPIO = wd[0];
+						GPIOEn = 1'b1;
+					end
+				else
+					begin
+						GPIO = 1'b0;
+						GPIOEn = 1'b0;
+					end
+			end
+		
+		
+endmodule 

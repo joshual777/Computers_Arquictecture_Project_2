@@ -1,0 +1,15 @@
+module Instruction_Memory(input logic [31:0] pc,
+								  output logic [31:0] rdata);
+	logic [31:0] Instructiondata[64:0];
+	
+	
+	initial begin
+	$readmemh("binfile.txt",Instructiondata);
+	end
+	
+	
+	assign rdata = Instructiondata[pc[31:0]];
+	
+	
+	
+endmodule 

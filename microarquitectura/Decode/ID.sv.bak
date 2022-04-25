@@ -1,0 +1,7 @@
+module ID (input logic clk, reset, PC_selec,
+				input logic [31:0] jumpResult,
+				output logic [31:0] PC, Instr
+);
+
+
+endmodule 

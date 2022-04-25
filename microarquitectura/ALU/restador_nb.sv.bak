@@ -1,0 +1,9 @@
+module restador_nb #(parameter N = 4) 
+					  (input logic [N-1:0] a, b,
+						input logic ci,
+					   output logic [N-1:0] rest,
+						output logic co);
+
+assign {co, rest} = a - b - ci;
+
+endmodule 

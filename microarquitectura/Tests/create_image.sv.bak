@@ -1,0 +1,48 @@
+module create_image();
+
+	logic clk, reset, swinit;
+	logic  GPIO, GPIOBoolean;
+	
+	Processor uut(clk, reset, swinit, GPIO, GPIOBoolean);
+	
+		clk=0; reset=0; swinit=0; #3;
+		reset=1; #3;
+		reset=0; #3;
+		// synthesis translate_off
+	
+	int i,Imagen;
+	initial begin
+		Imagen = $fopen("imagen.txt", "w");
+
+		i = 'd0;
+		
+		clk=0; reset=0; swinit=0; #3;
+		reset=1; #3;
+		reset=0; #3;
+		swinit=1; #10;
+		
+		
+		while (i < 'd57600)
+			begin
+				@(posedge clk);
+				if (GPIOBoolean)
+					begin
+					  	$fwrite(Imagen, "%b\n", GPIO);
+						i = i + 1;
+					end
+			end
+		$fclose(Imagen);
+		$finish;
+		
+	end
+	
+	always begin
+		clk=!clk; #10;
+	end
+	
+	
+		// synthesis translate_on
+	
+
+	
+endmodule 

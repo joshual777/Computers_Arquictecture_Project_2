@@ -1,0 +1,48 @@
+module Control_unit(input logic branchBoolean,
+					input logic [2:0] Code,
+					output logic  FlagW,RegW, MemW, Mem_boolean,
+					output logic [1:0] Imm_select,
+					output logic [3:0] ALUControl);
+					
+
+	always_comb begin 
+		Imm_select={branchBoolean,Code[2]}
+		MemW=0;
+		RegW=0;
+		Mem_boolean=0;
+		FlagW = 1'b0; 
+		if (branchBoolean) begin
+			case(Code)
+				//ADD
+				3'b000: begin ALUControl = 2'b00; RegW=1'b1; end // ADD
+				//SUB
+				3'b001: begin ALUControl = 2'b01; RegW=1'b1; end // SUB
+				//MUL
+				3'b010: begin ALUControl = 2'b10; RegW=1'b1;end // MUL
+				//STTL
+				3'b011: begin ALUControl = 2'b00;  end  // ADD
+				//MOV
+				3'b100: begin 	ALUControl = 2'b11; RegW=1'b1; end // Pass B
+				//CMP
+				3'b101: begin ALUControl = 2'b01; FlagW=1'b1 end //SUB
+				//STR
+				3'b110: begin ALUControl = 2'b11;  MemW=1'b1; end // ADD
+				//LD
+				3'b111: begin ALUControl = 2'b11;  RegW=1'b1; Mem_boolean=1'b1;  end// ADD
+				default: ALUControl = 4'bx; 
+			endcase
+		end
+		else begin
+			ALUControl = 2'b00; 
+		end
+	end
+endmodule 
+
+
+logic neg, zero, carry, overflow, ge;
+assign {neg, zero, carry, overflow} = Flags;
+	assign ge = (neg == overflow);
+	
+4'b1010: CondEx = ge; // GE
+4'b1100: CondEx = ~zero & ge; // GT
+4'b0000: CondEx = zero; // EQ

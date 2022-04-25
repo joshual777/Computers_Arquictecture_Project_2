@@ -1,0 +1,32 @@
+module PC_condition(input logic clk, reset,branchBoolean,FlagW, 
+							  input logic[3:0] Flagsin,
+							  input logic [1:0] Cond_select,
+							  output logic PC_select
+);
+
+
+	logic [3:0] Flags;
+	logic CondEx;
+	
+	
+	ff_enable #(3)flagff(clk, reset, FlagW,{Flagsin[3:2],Flagsin[0]}, Flags);
+
+		logic  ge;
+		assign {neg, zero, overflow} = Flags;
+		assign ge = (neg == overflow);
+		
+		always_comb
+		case(Cond_select)
+			2'b00: CondEx = ~zero & ge; // GTE
+			2'b01: CondEx = ge; // GE
+			2'b10: CondEx = zero; // EQ
+			2'b11: CondEx = 1'b1; // Always
+			default: CondEx = 1'bx; // undefined
+		endcase
+	
+	assign PC_select = Condex & branchBoolean;
+
+	
+	
+
+	

@@ -1,0 +1,17 @@
+module Extender(input logic [27:0] Instr,
+					input logic [1:0] immediatetype,
+					output logic [31:0] extendeddata);
+	always_comb
+	case(immediatetype)
+	// 16-bit 3 register
+	2'b00: extendeddata = {16'b0, Instr[15:0]};
+	// 20-bit 2 register
+	2'b01: extendeddata = {12'b0, Instr[19:0]};
+	// 24-bit 1 register
+	2'b10: extendeddata = {8'b0,Instr[23:0]};
+	// 28-bit branch
+	2'b11: extendeddata = {4'b0,Instr};
+	// undefined
+	default: extendeddata = 32'bx; 
+	endcase
+endmodule 

@@ -1,0 +1,10 @@
+module EX (input logic clk, reset,regwBooleanIn
+			  input logic [3:0] regselectordestIn,
+			  input logic [31:0] PC, Instr, FinalResult,
+			  output logic regwBooleaninOut,FlagW, memwBoolean, MemrBoolean,Instr[31],
+			  output logic [31:0] A,B,
+			  output logic [1:0] ALUControl, Instr[29:28],
+			  output logic [3:0] regselectordestOUT
+);
+
+endmodule 

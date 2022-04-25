@@ -1,0 +1,18 @@
+module decodificador_comportamiento_testbench ();
+	logic a, b,ci
+	logic co, rest
+	restador_nb #(1) uut (a,b,ci, rest,co);
+
+	initial begin
+		a=0; b=0; ci=1;
+		#10;
+		a=0; b=1; ci=1;
+		#10;
+		a=0; b=1; ci=0;
+		#10;
+		a=1; b=1; c=1;
+		#10;
+	end
+
+
+endmodule 
