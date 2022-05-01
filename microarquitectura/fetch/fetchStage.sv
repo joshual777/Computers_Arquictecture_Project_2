@@ -1,3 +1,4 @@
+// By Kevin
 module fetchStage #(parameter N=23) (input logic CLK, rst,
 											input logic [N-1:0] newPC,
 											output logic [N-1:0] instruccion, nextPc);
