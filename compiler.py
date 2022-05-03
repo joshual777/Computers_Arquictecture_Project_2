@@ -1,3 +1,14 @@
+cont = 0
+labels = []
+
+class Label:
+
+    def __init__(self, name, line):
+        self.name = name
+        self.line = line
+
+
+
 def getInstructionCode(instruction):
     switcher = {
         "sum" : "0000",
@@ -99,31 +110,30 @@ def get2OpInstructionCode(instruction):
                 inmediate = "0" + inmediate
                 
             code = code + "0000" + inmediate + "0001"
-            print(code)
+            f2.write(code)
             f2.write("\n")
     else:
         code = code + getRegisterCode(instruction[0:3].replace("\n", "")) + "000000000000"
-        print(code)
+        f2.write(code)
         f2.write("\n")
 
 def get1OpInstructionCode(instruction):
+    global labels
     code = getInstructionCode(instruction[0:3])
     instruction = instruction[instruction.find(" ")+1:].replace(" ", "")
-    if instruction.find("R") == -1:
+    if instruction.find("_") != -1:    
+        for label in labels: 
+            if label.name == instruction:
+                instruction = label.line
     
-        if len(decimal_a_binario(int(instruction))) > 8:
-            code = code + "Invalid Inmediate"
-        else:
-            inmediate = decimal_a_binario(int(instruction))
-            while len(inmediate) < 8:
-                inmediate = "0" + inmediate
-                
-            code = code + "0000" + inmediate + "0001"
-            print(code)
-            f2.write("\n")
+    if len(decimal_a_binario(int(instruction))) > 8:
+        code = code + "Invalid Inmediate or label"
     else:
-        code = code + getRegisterCode(instruction[0:3].replace("\n", "")) + "0000000000000000"
-        print(code)
+        inmediate = decimal_a_binario(int(instruction))
+        while len(inmediate) < 8:
+            inmediate = "0" + inmediate
+        code = code + inmediate + "000000000001"
+        f2.write(code)
         f2.write("\n")
 def getLDSROpInstructionCode(instruction):
     if instruction.find("+") == -1:
@@ -146,29 +156,41 @@ def getLDSROpInstructionCode(instruction):
                     inmediate = "0" + inmediate
                     
                 code = code + inmediate + "0010"
-            print(code)
+            f2.write(code)
             f2.write("\n")
         else:
             code = code + "0000" + getRegisterCode(instruction[0:3].replace("\n", "")) + "0011"
-            print(code)
+            f2.write(code)
             f2.write("\n")
     
 def instructionType(instruction):
+    global cont
+    global labels
     if instruction[0:3] =='sum' or instruction[0:3] =='res'or instruction[0:3] =='mul'or instruction[0:3] =='div' or instruction[0:3] =='and'or instruction[0:3] =='or 'or instruction[0:3] =='not':
         get3OpInstructionCode(instruction)
+        cont = cont +1
     elif instruction[0:3] =='cmp': 
         get2OpInstructionCode(instruction)
+        cont = cont +1
     elif instruction[0:3] =='sto' or instruction[0:3] =='sme' or instruction[0:3] =='si '  or instruction[0:3] =='sma':
         get1OpInstructionCode(instruction)
+        cont = cont +1
     elif instruction[0:3] =='ld ' or instruction[0:3] =='sr ':
         getLDSROpInstructionCode(instruction)
+        cont = cont +1
     else:
-        print("Invalid instruction input")
+        label = Label(instruction.replace(":", "").replace(" ", ""), cont +1)
+        labels.append(label)
+        
+
+
 f = open("instructions.txt", "r")
 f2 = open ("Binary.txt","w")
 
 for linea in f:
+
     instructionType(linea)
+print("Completado")
 
 f.close()
 
