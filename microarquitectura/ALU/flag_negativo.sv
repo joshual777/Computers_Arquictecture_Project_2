@@ -2,6 +2,6 @@
 							  input logic [1:0] selec_alu,
 							  output logic flag );
 					
-assign flag = co_resta & (selec_alu==2'b01);
+assign flag = co_resta & (selec_alu==3'b001);
 
 endmodule 

@@ -4,6 +4,6 @@
 					
 wire[N-1:0] d;
 divisor_nb #(N) div (result,b,d);					
-assign flag = (a!=d) & (selec_alu==2'b10);
+assign flag = (a!=d) & (selec_alu==3'b010);
 
 endmodule 

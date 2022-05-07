@@ -4,8 +4,8 @@
 	
 	always_comb
 		case(selector)
-			1'b0 : result = r1;
-			1'b1 : result = r2;
+			1'b1 : result = r1;
+			1'b0 : result = r2;
 			default : result = 'z;
 		endcase
 		
