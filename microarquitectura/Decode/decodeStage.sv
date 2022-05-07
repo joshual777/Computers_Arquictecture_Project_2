@@ -33,7 +33,7 @@ module decodeStage (
 	// G,H,I en otro lugar
 	Mux2_1 muxJ(4'b1011, instr[19:16], instr[23]&~instr[22]&~instr[21]&~instr[20], preRegToWrite);
 	
-	// Register 
+	// Pipeline regs 
 	register #(1) pcWeReg(clk, reset, instr[23]&instr[22], pcWe);
 	register #(1) memWeReg(clk, reset, instr[1], memWe);
 	register #(24) dataToWriteReg(clk, reset, rdata1, dataToWrite);
