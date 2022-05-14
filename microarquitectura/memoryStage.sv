@@ -8,7 +8,12 @@ module memoryStage (
 );
 
 	logic [23:0] q, outMuxI;
-	ram data_memory(result, clk, dataToWrite, memWe, q);
+	logic [7:0] memoryOutput;
+
+	assign q = {16'b0, memoryOutput};
+	assign memoryClk = !clk;
+
+	ram data_memory(result[13:0], memoryClk, dataToWrite[7:0], memWe, memoryOutput);
 
 	Mux2_1 muxI(result, q, writeRegFromAlu, outMuxI);
 	
