@@ -11,11 +11,11 @@ module memoryStage (
 	logic [7:0] memoryOutput;
 
 	assign q = {16'b0, memoryOutput};
-	assign memoryClk = !clk;
+	assign memoryClk = !clk & !reset;
 
 	ram data_memory(result[13:0], memoryClk, dataToWrite[7:0], memWe, memoryOutput);
 
-	Mux2_1 muxI(result, q, writeRegFromAlu, outMuxI);
+	Mux2_1 #(24) muxI(result, q, writeRegFromAlu, outMuxI);
 	
 	// Pipeline regs
 	register #(4) regToWriteReg(clk, reset, regToWrite, regToWriteOut);

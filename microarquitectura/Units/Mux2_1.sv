@@ -1,4 +1,4 @@
- module Mux2_1	#(parameter N = 32)	(input logic[N-1:0] r1, r2,
+ module Mux2_1	#(parameter N = 24)	(input logic[N-1:0] r1, r2,
 											input logic selector,
 											output logic[N-1:0] result);
 	

@@ -5,7 +5,7 @@ module register #(parameter N = 3) (input logic clk,
 												
 always_ff @(posedge clk, posedge reset)
 
-if (reset) salida <= '0;
+if (reset) salida <= 0;
 
 else salida <= entrada;
  
