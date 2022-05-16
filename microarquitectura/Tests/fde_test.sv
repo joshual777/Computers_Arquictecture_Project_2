@@ -4,13 +4,13 @@ module fde_test();
 	logic regWeIn, clk, reset, pcWe, memWe, flagsWe, writeRegFromAlu, regWe, memWeOut, regWeOut, writeRegFromAluOut;
 	logic [2:0] aluMode;
 	logic [3:0] regToWrite, regToWriteIn, regToWriteOut, regToWriteOut2;
-	logic [23:0] newPc, instruccion, op1, op2, dataToWrite, wbData, dataToWriteOut, resultOut, pcm4;
+	logic [23:0] nextImmPc, newPc, instruccion, op1, op2, dataToWrite, wbData, dataToWriteOut, resultOut, pcm4, pcm4Out;
 
 	fetchStage fetch(clk, reset, newPc, 
-						instruccion, pcm4);
-	decodeStage decode(clk, reset, regWeIn, instruccion, wbData, regToWriteIn,
-						pcWe, memWe, flagsWe, writeRegFromAlu, regWe, op1, op2, dataToWrite, regToWriteOut, aluMode);
-	executionStage execute(memWe, regWe, writeRegFromAlu, pcWe, flagsWe, clk, reset, dataToWrite, op1, op2, pcm4, regToWriteOut, aluMode,
+						instruccion, pcm4, nextImmPc);
+	decodeStage decode(clk, reset, regWeIn, instruccion, wbData, pcm4, regToWriteIn,
+						pcWe, memWe, flagsWe, writeRegFromAlu, regWe, op1, op2, dataToWrite, pcm4Out, regToWriteOut, aluMode);
+	executionStage execute(memWe, regWe, writeRegFromAlu, pcWe, flagsWe, clk, reset, dataToWrite, op1, op2, pcm4Out, nextImmPc, regToWriteOut, aluMode,
 							memWeOut, regWeOut, writeRegFromAluOut, regToWriteOut2, dataToWriteOut, resultOut, newPc);
 
 
