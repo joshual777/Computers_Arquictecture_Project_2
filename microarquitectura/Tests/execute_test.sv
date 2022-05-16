@@ -33,8 +33,10 @@ module execute_test();
 		pcm4 = 7;
 		#20; // Siguiente tick
 		#10; // Leemos en bajos
-		assert(result === 3);		
-		assert(newPc === 7);
+		assert(
+			result === 3 &
+			newPc === 7
+		);		
 		#10;
 
 		// Test 2: Suma al pc

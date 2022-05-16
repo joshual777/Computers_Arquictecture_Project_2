@@ -23,7 +23,7 @@ module executionStage (
 	register #(1) writeRegFromAluRegister(clk, reset, writeRegFromAlu, writeRegFromAluOut);
 	register #(24) resultRegister(clk, reset, result, resultOut);
 	register #(24) dataToWriteRegister(clk, reset, dataToWrite, dataToWriteOut);
-	register #(3) regToWriteReg(clk, reset, regToWrite, regToWriteOut);
+	register #(4) regToWriteReg(clk, reset, regToWrite, regToWriteOut);
 
 	
 

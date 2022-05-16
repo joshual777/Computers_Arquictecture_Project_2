@@ -1,9 +1,9 @@
 module decodeStage (
 	input logic clk, reset, regWeIn,
-	input logic [23:0] instr, wbData,
+	input logic [23:0] instr, wbData, pcm4,
 	input logic [3:0] regToWriteIn,
 	output logic pcWe, memWe, flagsWe, writeRegFromAlu, regWeOut,
-	output logic [23:0] op1, op2, dataToWrite,
+	output logic [23:0] op1, op2, dataToWrite, pcm4Out,
 	output logic [3:0] regToWriteOut,
 	output logic [2:0] aluMode
 );
@@ -51,5 +51,7 @@ module decodeStage (
 	register #(1) flagsWeReg(clk, reset, instr[23]&~instr[22]&~instr[21]&~instr[20], flagsWe);
 	register #(1) writeRegFromAluReg(clk, reset, ~instr[23]|(~instr[22]&~instr[21]&~instr[20]), writeRegFromAlu);
 	register #(1) regWeReg(clk, reset, ~instr[23]|(~instr[22]&~instr[21]), regWeOut);
+	register #(24) pcm4reg(clk, reset, pcm4, pcm4Out);
+	
 	
 endmodule
