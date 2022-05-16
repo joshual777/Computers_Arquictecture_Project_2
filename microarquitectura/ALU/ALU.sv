@@ -19,7 +19,7 @@ module ALU #(parameter N = 4)(input logic [N-1:0] a, b,
 	assign result_not = ~a;
 
 	
-	Mux #(N) m (result_suma, result_resta, result_multi,result_div, result_and, result_or, result_not,
+	Mux #(N) m (result_suma, result_resta, result_multi[23:0],result_div, result_and, result_or, result_not,
 					selec_alu,result);
 
 

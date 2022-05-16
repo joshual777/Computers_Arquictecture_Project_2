@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY Processor
+set_global_assignment -name TOP_LEVEL_ENTITY executionStage
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:58:04  OCTOBER 04, 2021"
 set_global_assignment -name LAST_QUARTUS_VERSION "19.1.0 Lite Edition"
@@ -72,16 +72,9 @@ set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME "MemoryStage Testbench" -
 set_global_assignment -name EDA_TEST_BENCH_NAME "Fetch Stage Test" -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id "Fetch Stage Test"
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME "Fetch Stage Test" -section_id "Fetch Stage Test"
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name EDA_TEST_BENCH_FILE Tests/ram_test.sv -section_id "Testbench Ram"
-set_global_assignment -name EDA_TEST_BENCH_FILE Tests/Mem_Test.sv -section_id "MemoryStage Testbench"
-set_global_assignment -name EDA_TEST_BENCH_FILE Tests/fetch_test.sv -section_id "Fetch Stage Test"
 set_global_assignment -name EDA_TEST_BENCH_NAME "Fetch-Decode Test" -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id "Fetch-Decode Test"
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME "Fetch-Decode Test" -section_id "Fetch-Decode Test"
-set_global_assignment -name EDA_TEST_BENCH_FILE Tests/fetch_decode_test.sv -section_id "Fetch-Decode Test"
 set_global_assignment -name SYSTEMVERILOG_FILE Units/Mux4_1.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Tests/ram_test.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Units/register.sv
@@ -138,4 +131,15 @@ set_global_assignment -name QIP_FILE ram.qip
 set_global_assignment -name MIF_FILE ram.mif
 set_global_assignment -name MIF_FILE rom.mif
 set_global_assignment -name QIP_FILE rom.qip
+set_global_assignment -name EDA_TEST_BENCH_FILE Tests/ram_test.sv -section_id "Testbench Ram"
+set_global_assignment -name EDA_TEST_BENCH_FILE Tests/Mem_Test.sv -section_id "MemoryStage Testbench"
+set_global_assignment -name EDA_TEST_BENCH_FILE Tests/fetch_test.sv -section_id "Fetch Stage Test"
+set_global_assignment -name EDA_TEST_BENCH_FILE Tests/fetch_decode_test.sv -section_id "Fetch-Decode Test"
+set_global_assignment -name EDA_TEST_BENCH_NAME "Execution Test" -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id "Execution Test"
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME "Execution Test" -section_id "Execution Test"
+set_global_assignment -name EDA_TEST_BENCH_FILE Tests/execute_test.sv -section_id "Execution Test"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

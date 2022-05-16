@@ -1,5 +1,5 @@
  module Mux	#(parameter N = 4)	(input logic[N-1:0] r1, r2, r3, r4, r5, r6, r7,
-											input logic[1:0] selec_alu,
+											input logic[2:0] selec_alu,
 											output logic[N-1:0] result);
 	
 	always_comb
