@@ -1,6 +1,7 @@
 sum R0, R1 ,   10
 res R11, R1, R5
 mul R2, R5, R1
+cmp R5, R7
 div R3, R7, 5
 _jumpHere:
 and R4, R8, 1
@@ -14,6 +15,7 @@ sma 4
 cmp R5, R7
 cmp R0,   10
 ld R0, R1 + 2
-sr R6, R1 + R2
+sto _jmp
 ld R0, R1 + R3
 sr R6, R1 + 10
+or R0, R0, R0

@@ -1,4 +1,4 @@
-cont = 0
+cont = -1
 labels = []
 
 class Label:
@@ -67,13 +67,13 @@ def decimal_a_binario(decimal):
     return binario
 
 def get3OpInstructionCode(instruction):
-    code = getInstructionCode(instruction[0:3])
+    code =  "	" + str(cont) +":"+ getInstructionCode(instruction[0:3])
     instruction = instruction[instruction.find("R"):].replace("\n", "")
     code = code + getRegisterCode(instruction[0:3].replace(" ", "").replace(",", ""))
     instruction = instruction[instruction.find("R",1):]
     code = code + getRegisterCode(instruction[0:3].replace(" ", "").replace(",", ""))
     if instruction.find(",") == -1:
-        code = code  + "000000000001"
+        code = code  + "000000000001;"
         f2.write(code)
         f2.write("\n")
     else: 
@@ -88,15 +88,16 @@ def get3OpInstructionCode(instruction):
                 while len(inmediate) < 8:
                     inmediate = "0" + inmediate
                 
-                code = code + inmediate + "0001"
+                code = code + inmediate + "0001;"
             f2.write(code)
             f2.write("\n")
         else:
-            code = code + getRegisterCode(instruction[0:3].replace("\n", "")) + "00000000"
+            code = code + getRegisterCode(instruction[0:3].replace("\n", "")) + "00000000;"
             f2.write(code)
             f2.write("\n")
 def get2OpInstructionCode(instruction):
-    code = getInstructionCode(instruction[0:3])
+    global cont
+    code =  "	" + str(cont) +":"+ getInstructionCode(instruction[0:3])
     instruction = instruction[instruction.find("R"):].replace("\n", "")
     code = code + getRegisterCode(instruction[0:3].replace(" ", "").replace(",", ""))
     instruction = instruction[instruction.find(",")+1:].replace(" ", "")
@@ -109,17 +110,20 @@ def get2OpInstructionCode(instruction):
             while len(inmediate) < 8:
                 inmediate = "0" + inmediate
                 
-            code = code + "0000" + inmediate + "0001"
+            code = code + "0000" + inmediate + "0001;"
             f2.write(code)
             f2.write("\n")
     else:
-        code = code + getRegisterCode(instruction[0:3].replace("\n", "")) + "000000000000"
+        code = code + getRegisterCode(instruction[0:3].replace("\n", "")) + "000000000000;"
         f2.write(code)
         f2.write("\n")
+    instructionType("or R0, R0,R0")
+    instructionType("or R0, R0,R0")
+    instructionType("or R0, R0,R0")
 
 def get1OpInstructionCode(instruction):
     global labels
-    code = getInstructionCode(instruction[0:3])
+    code =  "	" + str(cont) +":"+ getInstructionCode(instruction[0:3])
     instruction = instruction[instruction.find(" ")+1:].replace(" ", "")
     if instruction.find("_") != -1:    
         for label in labels: 
@@ -132,14 +136,17 @@ def get1OpInstructionCode(instruction):
         inmediate = decimal_a_binario(int(instruction))
         while len(inmediate) < 8:
             inmediate = "0" + inmediate
-        code = code + inmediate + "000000000001"
+        code = code + inmediate + "000000000001;"
         f2.write(code)
         f2.write("\n")
+    instructionType("or R0, R0,R0")
+    instructionType("or R0, R0,R0")
+
 def getLDSROpInstructionCode(instruction):
     if instruction.find("+") == -1:
         get2OpInstructionCode(instruction)
     else:
-        code = getInstructionCode(instruction[0:3])
+        code =  "	" + str(cont) +":"+ getInstructionCode(instruction[0:3])
         instruction = instruction[instruction.find("R"):].replace("\n", "")
         code = code + getRegisterCode(instruction[0:3].replace(" ", "").replace(",", ""))
         instruction = instruction[instruction.find("R",1):]
@@ -155,11 +162,11 @@ def getLDSROpInstructionCode(instruction):
                 while len(inmediate) < 8:
                     inmediate = "0" + inmediate
                     
-                code = code + inmediate + "0010"
+                code = code + inmediate + "0010;"
             f2.write(code)
             f2.write("\n")
         else:
-            code = code + "0000" + getRegisterCode(instruction[0:3].replace("\n", "")) + "0011"
+            code = code + "0000" + getRegisterCode(instruction[0:3].replace("\n", "")) + "0011;"
             f2.write(code)
             f2.write("\n")
     
@@ -167,17 +174,18 @@ def instructionType(instruction):
     global cont
     global labels
     if instruction[0:3] =='sum' or instruction[0:3] =='res'or instruction[0:3] =='mul'or instruction[0:3] =='div' or instruction[0:3] =='and'or instruction[0:3] =='or 'or instruction[0:3] =='not':
-        get3OpInstructionCode(instruction)
         cont = cont +1
-    elif instruction[0:3] =='cmp': 
+        get3OpInstructionCode(instruction)
+    elif instruction[0:3] =='cmp':
+        cont = cont +1 
         get2OpInstructionCode(instruction)
         cont = cont +1
     elif instruction[0:3] =='sto' or instruction[0:3] =='sme' or instruction[0:3] =='si '  or instruction[0:3] =='sma':
+        cont = cont +1
         get1OpInstructionCode(instruction)
-        cont = cont +1
     elif instruction[0:3] =='ld ' or instruction[0:3] =='sr ':
-        getLDSROpInstructionCode(instruction)
         cont = cont +1
+        getLDSROpInstructionCode(instruction)
     else:
         label = Label(instruction.replace(":", "").replace(" ", ""), cont +1)
         labels.append(label)
@@ -186,10 +194,24 @@ def instructionType(instruction):
 
 f = open("instructions.txt", "r")
 f2 = open ("Binary.txt","w")
+f2.write("WIDTH=24;\n")
+f2.write("DEPTH=65536;\n")
+f2.write("\n")
+f2.write("ADDRESS_RADIX=UNS;\n")
+f2.write("DATA_RADIX=BIN;\n")
+f2.write("\n")
+f2.write("CONTENT BEGIN")
+f2.write("\n")
+
+
+
 
 for linea in f:
 
     instructionType(linea)
+f2.write("	[" + str(cont+1) + "..65535]: 000000000000000000000000;")
+f2.write("\n")
+f2.write("END;")
 print("Completado")
 
 f.close()
